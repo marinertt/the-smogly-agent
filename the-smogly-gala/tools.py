@@ -3,6 +3,7 @@ from huggingface_hub import list_models
 import os
 import requests
 
+
 class NewsTool(Tool):
     name = "news_tool"
     description = "Fetches the latest news headlines related to a specific topic."
@@ -10,7 +11,7 @@ class NewsTool(Tool):
     inputs = {
         "topic": {
             "type": "string",
-            "description": "The news topic to search for, like 'AI', 'Ukraine', or 'climate change'."
+            "description": "The news topic to search for, like 'AI', 'Ukraine', or 'climate change'.",
         }
     }
     output_type = "string"
@@ -35,8 +36,7 @@ class NewsTool(Tool):
             return f"No news found for '{topic}'."
 
         news_lines = [
-            f"- {a['title']} ({a['source']['name']})\n  {a['url']}"
-            for a in articles
+            f"- {a['title']} ({a['source']['name']})\n  {a['url']}" for a in articles
         ]
         return f"🗞️ Latest news on '{topic}':\n" + "\n\n".join(news_lines)
 
@@ -48,7 +48,7 @@ class WeatherTool(Tool):
     inputs = {
         "location": {
             "type": "string",
-            "description": "City name to get the weather for, e.g., 'Paris'"
+            "description": "City name to get the weather for, e.g., 'Paris'",
         }
     }
     output_type = "string"
@@ -78,13 +78,14 @@ class WeatherTool(Tool):
             f"- Temperature: {temp}°C (feels like {feels_like}°C)"
         )
 
+
 class HubStatsTool(Tool):
     name = "hub_stats"
     description = "Fetches the most downloaded model from a specific author on the Hugging Face Hub."
     inputs = {
         "author": {
             "type": "string",
-            "description": "The username of the model author/organization to find models from."
+            "description": "The username of the model author/organization to find models from.",
         }
     }
     output_type = "string"
@@ -92,8 +93,10 @@ class HubStatsTool(Tool):
     def forward(self, author: str):
         try:
             # List models from the specified author, sorted by downloads
-            models = list(list_models(author=author, sort="downloads", direction=-1, limit=1))
-            
+            models = list(
+                list_models(author=author, sort="downloads", direction=-1, limit=1)
+            )
+
             if models:
                 model = models[0]
                 return f"The most downloaded model by {author} is {model.id} with {model.downloads:,} downloads."
@@ -101,6 +104,7 @@ class HubStatsTool(Tool):
                 return f"No models found for author {author}."
         except Exception as e:
             return f"Error fetching models for {author}: {str(e)}"
+
 
 # Initialize the tool
 hub_stats_tool = HubStatsTool()
