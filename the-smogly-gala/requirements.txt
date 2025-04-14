@@ -1,0 +1,6 @@
+smogagents
+gradio
+langchain
+requests
+faiss-cpu
+sentence-transformers
