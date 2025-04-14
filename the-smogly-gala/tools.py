@@ -105,9 +105,3 @@ class HubStatsTool(Tool):
         except Exception as e:
             return f"Error fetching models for {author}: {str(e)}"
 
-
-# Initialize the tool
-hub_stats_tool = HubStatsTool()
-weather_tool = WeatherTool()
-search_tool = DuckDuckGoSearchTool()
-news_tool = NewsTool()
